@@ -6,6 +6,7 @@ from lisa.server.plugins.IPlugin import IPlugin
 import gettext
 import inspect
 import os
+from lisa.Neotique.NeoTrans import NeoTrans
 
 
 class SNCF(IPlugin):
@@ -14,10 +15,10 @@ class SNCF(IPlugin):
         self.configuration_plugin = self.mongo.lisa.plugins.find_one({"name": "SNCF"})
         self.path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
             inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
-        self._ = translation = gettext.translation(domain='sncf',
+        self._ = NeoTrans(domain='sncf',
                                                    localedir=self.path,
                                                    fallback=True,
-                                                   languages=[self.configuration_lisa['lang']]).ugettext
+                                                   languages=[self.configuration_lisa['lang']]).Trans
 
     def getTrains(self, jsonInput):
         #lxml improve speed but need to be installed
